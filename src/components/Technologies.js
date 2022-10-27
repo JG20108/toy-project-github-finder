@@ -24,7 +24,6 @@ export default function ProfilePage() {
     >
       <MDBContainer className="py-2" style={{ height: '100%' }}>
         <MDBRow>
-          {/* <MDBCol lg="8"> */}
           <MDBCard className="mb-4">
             <MDBCardBody>
               <MDBRow>
@@ -87,10 +86,9 @@ export default function ProfilePage() {
                 </MDBCol>
                 <MDBCol sm="9">
                   <MDBCardText className="text-muted">
-                    Redux is a predictable state container designed to help you
-                    write JavaScript apps that behave consistently across
-                    client, server, and native environments, and are easy to
-                    test.
+                    Predictable state container designed to help you write
+                    JavaScript apps that behave consistently across client,
+                    server, and native environments, and are easy to test.
                   </MDBCardText>
                 </MDBCol>
               </MDBRow>
@@ -102,9 +100,25 @@ export default function ProfilePage() {
                 <MDBCol sm="9">
                   <MDBCardText className="text-muted">
                     {' '}
-                    Redux Thunk is middleware that allows you to return
-                    functions, rather than just actions, within Redux. This
-                    allows for delayed actions, including working with promises.
+                    Middleware that allows you to return functions, rather than
+                    just actions, within Redux. This allows for delayed actions,
+                    including working with promises.
+                  </MDBCardText>
+                </MDBCol>
+              </MDBRow>
+              <hr />
+              <MDBRow>
+                <MDBCol sm="3">
+                  <MDBCardText>Redux Toolkit </MDBCardText>
+                </MDBCol>
+                <MDBCol sm="9">
+                  <MDBCardText className="text-muted">
+                    {' '}
+                    Set of tools that helps simplify Redux development. It
+                    includes utilities for creating and managing Redux stores,
+                    as well as for writing Redux actions and reducers. The Redux
+                    team recommends using Redux Toolkit anytime you need to use
+                    Redux.
                   </MDBCardText>
                 </MDBCol>
               </MDBRow>
@@ -141,13 +155,44 @@ export default function ProfilePage() {
                 </MDBCol>
                 <MDBCol sm="9">
                   <MDBCardText className="text-muted">
-                  The Search API helps you search for the specific item you want to find. For example, you can find a user or a specific file in a repository. Think of it the way you think of performing a search on Google. It's designed to help you find the one result you're looking for (or maybe the few results you're looking for). Just like searching on Google, you sometimes want to see a few pages of search results so that you can find the item that best meets your needs. 
+                    Helps you search for the specific item you want to find. For
+                    example, you can find a user or a specific file in a
+                    repository. Think of it the way you think of performing a
+                    search on Google. It's designed to help you find the one
+                    result you're looking for (or maybe the few results you're
+                    looking for). Just like searching on Google, you sometimes
+                    want to see a few pages of search results so that you can
+                    find the item that best meets your needs.
+                  </MDBCardText>
+                </MDBCol>
+              </MDBRow>
+              <hr />
+              <MDBRow>
+                <MDBCol sm="3">
+                  <MDBCardText>GitHub Users API</MDBCardText>
+                </MDBCol>
+                <MDBCol sm="9">
+                  <MDBCardText className="text-muted">
+                    Allows to get public and private information about the
+                    authenticated user.
+                  </MDBCardText>
+                </MDBCol>
+              </MDBRow>
+              <hr />
+              <MDBRow>
+                <MDBCol sm="3">
+                  <MDBCardText>GitHub's OAuth implementation</MDBCardText>
+                </MDBCol>
+                <MDBCol sm="9">
+                  <MDBCardText className="text-muted">
+                    Supports the standard authorization code grant type and the
+                    OAuth 2.0 Device Authorization Grant for apps that don't
+                    have access to a web browser
                   </MDBCardText>
                 </MDBCol>
               </MDBRow>
             </MDBCardBody>
           </MDBCard>
-          {/* </MDBCol> */}
         </MDBRow>
       </MDBContainer>
     </section>

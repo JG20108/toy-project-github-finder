@@ -109,7 +109,7 @@ function NavBar() {
                 href="https://docs.google.com/document/d/1HKeYz7bV5B-ZhqErdIAUcyn6Ze0M9R0aR5HA9MPBbx0/edit"
                 target="_blank"
               >
-                Link to requirements
+                Project details
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
