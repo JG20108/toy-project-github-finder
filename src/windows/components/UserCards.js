@@ -12,13 +12,13 @@ import {
 } from 'mdb-react-ui-kit';
 
 export default function UserCards() {
-  const [user, setUser] = useState('JG20108');
+  // const [user, setUser] = useState('JG20108');
 
-  // Dispatch
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchUserDetailAction(user));
-  }, [dispatch, user]);
+  // // Dispatch
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(fetchUserDetailAction(user));
+  // }, [dispatch, user]);
 
   // Get the data
   const store = useSelector((state) => state?.repos);

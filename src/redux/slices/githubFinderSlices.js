@@ -40,7 +40,7 @@ export const fetchUserDetailAction = createAsyncThunk(
 // slices
 const reposSlices = createSlice({
   name: 'repos',
-  initialState: {user:'Emma'},
+  initialState: {user:''},
   extraReducers: (builder) => {
     // repos reducers
     builder.addCase(fetchReposAction.pending, (state, actions) => {
@@ -56,6 +56,7 @@ const reposSlices = createSlice({
       state.reposList = undefined;
       state.error = action?.payload;
     })
+
     // profile
     builder.addCase(fetchUserDetailAction.pending, (state, action) => {
       state.loading = true;
