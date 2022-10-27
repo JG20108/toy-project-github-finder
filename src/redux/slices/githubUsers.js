@@ -10,7 +10,8 @@ export const fetchUsers = createAsyncThunk(
       const { data } = await axios.get(
         // `https://api.github.com/users/${query}`
         // `https://api.github.com/search/users?q=repos:followers:<1000&language:javascript&page=1&per_page=24`
-        `https://api.github.com/search/users?q=${query}+repos:%3E42+followers:%3E1000`
+        // `https://api.github.com/search/users?q=${query}+repos:%3E42+followers:%3E1000&page=1&per_page=24`
+        `https://api.github.com/search/users?q=${query}&page=1&per_page=24`
       );
       return data;
     } catch (err) {
