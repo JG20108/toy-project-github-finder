@@ -8,7 +8,22 @@ import {
   MDBBtn,
 } from 'mdb-react-ui-kit';
 
+<<<<<<< HEAD
 export default function UserCards({user}) {
+=======
+export default function UserCards() {
+  const [user, setUser] = useState('JG20108');
+
+  // Dispatch
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUserDetailAction(user));
+  }, [dispatch, user]);
+
+  // Get the data
+  const store = useSelector((state) => state?.repos);
+  const { loading, profile, error } = store;
+>>>>>>> 58edbd4c92827e1b9979f242dde77fe93f3f586f
 
   return (
     <MDBCol md="6" lg="4" xl="4" className="mt-3">
