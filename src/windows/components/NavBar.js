@@ -3,12 +3,27 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { NavLink, Link } from 'react-router-dom';
-import { MDBBtn, MDBIcon } from 'mdb-react-ui-kit';
+import {
+  MDBNavbar,
+  MDBContainer,
+  MDBIcon,
+  MDBNavbarNav,
+  MDBNavbarItem,
+  MDBNavbarLink,
+  MDBNavbarToggler,
+  MDBNavbarBrand,
+  MDBCollapse,
+  MDBBtn,
+} from 'mdb-react-ui-kit';
 import React, { useEffect, useState } from 'react';
 
 function NavBar() {
   const [rerender, setRerender] = useState(false);
   const [userData, setUserData] = useState({});
+
+  const [showNavColor, setShowNavColor] = useState(false);
+  const [showNavColorSecond, setShowNavColorSecond] = useState(false);
+  const [showNavColorThird, setShowNavColorThird] = useState(false);
 
   // function loginWithGithub() {
   //   window.location.assign(
@@ -59,101 +74,105 @@ function NavBar() {
   // }
 
   return (
-    <Navbar bg="primary" variant="dark" expand="lg" style={{ width: '100%' }}>
-      <Container>
-        <Navbar.Brand>
-          GitHub Finder
-          <a
-            href="https://www.helloiconic.com/"
-            target="_blank"
-            rel="noreferrer"
-            style={{ fontSize: '8px', color: 'white', paddingLeft: '5%' }}
+    <>
+      <MDBNavbar expand="lg" dark bgColor="primary">
+        <MDBContainer fluid>
+          <MDBNavbarBrand className="nav-link">GitHub Finder</MDBNavbarBrand>
+
+          <MDBNavbarToggler
+            type="button"
+            data-target="#navbarColor02"
+            aria-controls="navbarColor02"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            onClick={() => setShowNavColor(!showNavColor)}
           >
-            {' '}
-            by Hello Iconic
-          </a>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <NavLink className="text-white pt-2 mr-1" to="/">
-                Home
-            </NavLink>
-            <NavLink className="text-white pt-2 mr-1" to="/profile">
-                Profile
-            </NavLink>
-            <NavDropdown title="Information" id="basic-nav-dropdown">
-              <NavDropdown.Item>How to use</NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link className="text-decoration-none" to="/technologies">
+            <MDBIcon icon="bars" fas />
+          </MDBNavbarToggler>
+          <MDBCollapse show={showNavColor} navbar>
+            <MDBNavbarNav className="me-auto mb-2 mb-lg-0">
+              <MDBNavbarItem>
+                <NavLink className="nav-link" to="/">
+                  Home
+                </NavLink>
+              </MDBNavbarItem>
+              <MDBNavbarItem>
+                <NavLink className="nav-link" to="/profile">
+                  Profile
+                </NavLink>
+              </MDBNavbarItem>
+              <MDBNavbarItem>
+                <NavLink className="nav-link" to="/technologies">
                   Technologies
-                </Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                href="https://docs.github.com/en/rest/search#search-users"
-                target="_blank"
-              >
-                GitHub Search api resources
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item
-                href="https://docs.google.com/document/d/1HKeYz7bV5B-ZhqErdIAUcyn6Ze0M9R0aR5HA9MPBbx0/edit"
-                target="_blank"
-              >
-                Link to requirements
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-        <Navbar.Collapse className="justify-content-end">
-          {localStorage.getItem('accessToken') ? (
-            <>
-              <MDBBtn
-                rounded
-                className="text-blue"
-                color="light"
-                variant="outline-light"
-                onClick={() => {
-                  localStorage.removeItem('accessToken');
-                  setRerender(!rerender);
-                }}
-              >
-                Log out
-              </MDBBtn>
-              <MDBBtn
-                rounded
-                className="text-blue"
-                color="light"
-                variant="outline-light"
-                // onClick={getUserData}
-              >
-                Get Data
-              </MDBBtn>
-              {Object.keys(userData).length !== 0 ? (
-                <>
-                  <h6 className="text-white" style={{ paddingLeft: '2%' }} on>
-                    Logged in as: {userData.login}
-                  </h6>
-                </>
-              ) : (
-                <></>
-              )}
-            </>
-          ) : (
-            <>
-              <Link className="text-decoration-none text-white" to="/login">
-                <MDBBtn className="mx-2" tag="a" color="light" outline floating>
-                  <MDBIcon fab icon="github-alt" size="2x" />
+                </NavLink>
+              </MDBNavbarItem>
+              <MDBNavbarItem>
+                <NavLink className="nav-link" to="/xd">
+                  How to use
+                </NavLink>
+              </MDBNavbarItem>
+              <MDBNavbarItem>
+                <NavLink className="nav-link" to="/login">
+                  Login with GitHub
+                  <MDBIcon className="ps-2" fab icon="github-alt" size="x" />
+                </NavLink>
+              </MDBNavbarItem>
+            </MDBNavbarNav>
+            {/* {localStorage.getItem('accessToken') ? (
+              <>
+                <MDBBtn
+                  rounded
+                  className="text-blue"
+                  color="light"
+                  variant="outline-light"
+                  onClick={() => {
+                    localStorage.removeItem('accessToken');
+                    setRerender(!rerender);
+                  }}
+                >
+                  Log out
                 </MDBBtn>
-              </Link>
-              <h6 className="text-white" style={{ paddingLeft: '2%' }}>
-                GitHub Login
-              </h6>
-            </>
-          )}
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+                <MDBBtn
+                  rounded
+                  className="text-blue"
+                  color="light"
+                  variant="outline-light"
+                  // onClick={getUserData}
+                >
+                  Get Data
+                </MDBBtn>
+                {Object.keys(userData).length !== 0 ? (
+                  <>
+                    <h6 className="text-white" style={{ paddingLeft: '2%' }} on>
+                      Logged in as: {userData.login}
+                    </h6>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <>
+                <Link className="text-decoration-none text-white" to="/login">
+                  <MDBBtn
+                    className="mx-2"
+                    tag="a"
+                    color="light"
+                    outline
+                    floating
+                  >
+                    <MDBIcon fab icon="github-alt" size="2x" />
+                  </MDBBtn>
+                </Link>
+                <h6 className="text-white" style={{ paddingLeft: '2%' }}>
+                  GitHub Login
+                </h6>
+              </> 
+            )} */}
+          </MDBCollapse>
+        </MDBContainer>
+      </MDBNavbar>
+    </>
   );
 }
 
