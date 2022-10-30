@@ -2,11 +2,9 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { MDBBtn, MDBIcon } from 'mdb-react-ui-kit';
 import React, { useEffect, useState } from 'react';
-
-// const CLIENT_ID = '88ef676a79a192c55463';
 
 function NavBar() {
   const [rerender, setRerender] = useState(false);
@@ -78,22 +76,15 @@ function NavBar() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link>
-              {''}
-              <Link className="text-decoration-none text-white" to="/">
+            <NavLink className="text-white pt-2 mr-1" to="/">
                 Home
-              </Link>
-            </Nav.Link>
-            <Nav.Link>
-              {''}
-              <Link className="text-decoration-none text-white" to="/profile">
+            </NavLink>
+            <NavLink className="text-white pt-2 mr-1" to="/profile">
                 Profile
-              </Link>
-            </Nav.Link>
+            </NavLink>
             <NavDropdown title="Information" id="basic-nav-dropdown">
               <NavDropdown.Item>How to use</NavDropdown.Item>
               <NavDropdown.Item>
-                {''}
                 <Link className="text-decoration-none" to="/technologies">
                   Technologies
                 </Link>
@@ -150,19 +141,11 @@ function NavBar() {
             </>
           ) : (
             <>
-              <MDBBtn
-                className="mx-2"
-                tag="a"
-                color="light"
-                onClick={async () => {
-                  // await loginWithGithub();
-                  // await getUserData();
-                }}
-                outline
-                floating
-              >
-                <MDBIcon fab icon="github-alt" size="2x" />
-              </MDBBtn>
+              <Link className="text-decoration-none text-white" to="/login">
+                <MDBBtn className="mx-2" tag="a" color="light" outline floating>
+                  <MDBIcon fab icon="github-alt" size="2x" />
+                </MDBBtn>
+              </Link>
               <h6 className="text-white" style={{ paddingLeft: '2%' }}>
                 GitHub Login
               </h6>

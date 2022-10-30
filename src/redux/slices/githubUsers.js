@@ -10,10 +10,13 @@ export const fetchUsers = createAsyncThunk(
       const { data } = await axios.get(
         // `https://api.github.com/users/${query}`
         // `https://api.github.com/search/users?q=repos:followers:<1000&language:javascript&page=1&per_page=24`
-        // `https://api.github.com/search/users?q=${query}+repos:%3E42+followers:%3E1000&page=1&per_page=24`
-        `https://api.github.com/search/users?q=${query}&page=1&per_page=24`
+        // `https://api.github.com/search/users?q=${query}followers:%3E1000&page=1&per_page=24`
+        `https://api.github.com/search/users?q=${query}followers:<1000&page=1&per_page=48`
+
+        // `https://api.github.com/search/users?q=${query}&page=1&per_page=3`
       );
-      return data;
+      console.log(data);
+      return data?.items;
     } catch (err) {
       if (!err?.response) {
         throw err;
@@ -26,7 +29,7 @@ export const fetchUsers = createAsyncThunk(
 // Slice
 const githubUsersSlice = createSlice({
   name: 'users',
-  initialState: { user: '' },
+  initialState: { users: [], loading: false, error: null }, // initial state of the slice
   extraReducers: (builder) => {
     // users reducers
     builder.addCase(fetchUsers.pending, (state, action) => {
@@ -35,11 +38,11 @@ const githubUsersSlice = createSlice({
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
       state.loading = false;
       state.users = action?.payload;
-      state.error = undefined;
+      state.error = null;
     });
     builder.addCase(fetchUsers.rejected, (state, action) => {
       state.loading = false;
-      state.users = undefined;
+      state.users = [];
       state.error = action?.payload;
     });
   },
