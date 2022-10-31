@@ -7,13 +7,23 @@ import { fetchUsers } from '../../redux/slices/githubUsers';
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedTerm, setDebouncedTerm] = useState(searchTerm); // Debounce search term
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedTerm(searchTerm);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchTerm]);
 
   // Dispatch
   const dispatch = useDispatch();
   useEffect(() => {
-    if (searchTerm !== '') dispatch(fetchUsers(searchTerm));
-    console.log(searchTerm); 
-  }, [dispatch, searchTerm]);
+    if (debouncedTerm !== '') dispatch(fetchUsers(debouncedTerm));
+    console.log(debouncedTerm); 
+  }, [dispatch, debouncedTerm]);
 
   return (
     <Container style={{ paddingTop: '2%' }}>

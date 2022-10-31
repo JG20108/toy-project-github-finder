@@ -11,9 +11,9 @@ export const fetchUsers = createAsyncThunk(
         // `https://api.github.com/users/${query}`
         // `https://api.github.com/search/users?q=repos:followers:<1000&language:javascript&page=1&per_page=24`
         // `https://api.github.com/search/users?q=${query}followers:%3E1000&page=1&per_page=24`
-        `https://api.github.com/search/users?q=${query}followers:<1000&page=1&per_page=48`
+        // `https://api.github.com/search/users?q=${query}followers:<1000&page=1&per_page=48`
 
-        // `https://api.github.com/search/users?q=${query}&page=1&per_page=3`
+        `https://api.github.com/search/users?q=${query}&page=1&per_page=3`
       );
       console.log(data);
       return data?.items;
