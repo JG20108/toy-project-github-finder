@@ -8,10 +8,12 @@ export const authAction = createAsyncThunk(
     try {
       // make http call
       const response = await axios.get(
-        `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}`, {
+        `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}`,
+        {
+          mode: 'no-cors',
           headers: {
-            "Access-Control-Allow-Origin": "*"
-          }
+            'Access-Control-Allow-Origin': '*'
+          },
         }
       );
       console.log(response);
@@ -24,7 +26,6 @@ export const authAction = createAsyncThunk(
     }
   }
 );
-
 
 // Slice
 // export const githubAuthSlice = createSlice({

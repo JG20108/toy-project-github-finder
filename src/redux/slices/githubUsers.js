@@ -10,7 +10,7 @@ export const fetchUsers = createAsyncThunk(
       const { data } = await axios.get(
         `https://api.github.com/search/users?q=${query}&page=1&per_page=3`
       );
-      console.log(data);
+      // console.log(data);
       return data?.items;
     } catch (err) {
       if (!err?.response) {
@@ -30,7 +30,7 @@ export const fetchDefault = createAsyncThunk(
       const { data } = await axios.get(
         `https://api.github.com/search/users?q=${query}&page=1&per_page=1`
       );
-      console.log(data);
+      // console.log(data);
       return data?.items;
     } catch (err) {
       if (!err?.response) {

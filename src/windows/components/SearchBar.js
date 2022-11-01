@@ -26,7 +26,6 @@ const SearchBar = () => {
     } else {
       dispatch(fetchDefault('github'));
     }
-    console.log(debouncedTerm);
   }, [dispatch, debouncedTerm]);
 
   return (

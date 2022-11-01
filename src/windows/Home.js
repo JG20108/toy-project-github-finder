@@ -13,22 +13,34 @@ export default function Home() {
   const { users, loading } = useSelector((state) => state.users); // Get users from store
   const [searchParams] = useSearchParams();
   const githubCode = searchParams.get('code');
+  const client_id = process.env.REACT_APP_CLIENT_ID;
+  const client_secret = process.env.REACT_APP_CLIENT_SECRET;
 
   useEffect(() => {
     if (githubCode) {
       (async () => {
-        const response = await axios.post(
-          `https://github.com/login/oauth/access_token&client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}&code=${githubCode}`,
-          {
-            headers: {
-              'Access-Control-Allow-Origin': '*',
-            },
-          }
-        );
-        console.log(response);
+        const response = await axios
+          .post(
+            `https://github.com/login/oauth/access_token?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}&code=${githubCode}`,
+            {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true',
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            // console.log(error);
+          });
       })();
     }
   }, [githubCode]);
+
   return (
     <>
       <NavBar></NavBar>
