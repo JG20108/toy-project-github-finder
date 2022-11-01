@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import {
   fetchReposAction,
   fetchUserDetailAction,
@@ -20,21 +21,22 @@ import {
 } from 'mdb-react-ui-kit';
 
 export default function DetailedView() {
-  const [user, setUser] = useState('JG20108');
+  const {user} = useParams();
+  const [userDetail, setUserDetail] = useState(user);
 
   // Dispatch
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchReposAction(user));
-    dispatch(fetchUserDetailAction(user));
-  }, [dispatch, user]);
+    dispatch(fetchReposAction(userDetail));
+    dispatch(fetchUserDetailAction(userDetail));
+  }, [dispatch, userDetail]);
 
   // Get the data
   const store = useSelector((state) => state?.repos);
   const { loading, reposList, profile, error } = store;
 
   return (
-    <section style={{ backgroundColor: '#eee' }}>
+    <section style={{ backgroundColor: '#eee', height:'100%'}}>
       <MDBContainer className="py-3">
         {loading ? (
           <h1 className="text-center">Loading data please wait...</h1>

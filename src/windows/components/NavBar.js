@@ -1,29 +1,30 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { authAction } from '../../redux/slices/githubAuth';
 import {
   MDBNavbar,
   MDBContainer,
   MDBIcon,
   MDBNavbarNav,
   MDBNavbarItem,
-  MDBNavbarLink,
   MDBNavbarToggler,
   MDBNavbarBrand,
   MDBCollapse,
   MDBBtn,
 } from 'mdb-react-ui-kit';
-import React, { useEffect, useState } from 'react';
 
 function NavBar() {
-  const [rerender, setRerender] = useState(false);
-  const [userData, setUserData] = useState({});
+  const [userDetail, setUserDetail] = useState();
+
+  // // Dispatch
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(authAction());
+  // }, [dispatch ]);
 
   const [showNavColor, setShowNavColor] = useState(false);
-  const [showNavColorSecond, setShowNavColorSecond] = useState(false);
-  const [showNavColorThird, setShowNavColorThird] = useState(false);
 
   // function loginWithGithub() {
   //   window.location.assign(
@@ -56,22 +57,6 @@ function NavBar() {
   //     getAccessToken();
   //   }
   // }, []);
-
-  // async function getUserData() {
-  //   await fetch('http://localhost:4000/getUserData', {
-  //     method: 'GET',
-  //     headers: {
-  //       Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
-  //     },
-  //   })
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       console.log('data', data);
-  //       setUserData(data);
-  //     });
-  // }
 
   return (
     <>
@@ -112,63 +97,17 @@ function NavBar() {
                 </NavLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <NavLink className="nav-link" to="/login">
-                  Login with GitHub
-                  <MDBIcon className="ps-2" fab icon="github-alt" size="x" />
-                </NavLink>
+                <MDBBtn
+                  onClick={() =>
+                    window.open(
+                      `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}`,
+                      '_blank'
+                    )
+                  }
+                ></MDBBtn>
+                <MDBIcon className="ps-2" fab icon="github-alt" size="x" />
               </MDBNavbarItem>
             </MDBNavbarNav>
-            {/* {localStorage.getItem('accessToken') ? (
-              <>
-                <MDBBtn
-                  rounded
-                  className="text-blue"
-                  color="light"
-                  variant="outline-light"
-                  onClick={() => {
-                    localStorage.removeItem('accessToken');
-                    setRerender(!rerender);
-                  }}
-                >
-                  Log out
-                </MDBBtn>
-                <MDBBtn
-                  rounded
-                  className="text-blue"
-                  color="light"
-                  variant="outline-light"
-                  // onClick={getUserData}
-                >
-                  Get Data
-                </MDBBtn>
-                {Object.keys(userData).length !== 0 ? (
-                  <>
-                    <h6 className="text-white" style={{ paddingLeft: '2%' }} on>
-                      Logged in as: {userData.login}
-                    </h6>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </>
-            ) : (
-              <>
-                <Link className="text-decoration-none text-white" to="/login">
-                  <MDBBtn
-                    className="mx-2"
-                    tag="a"
-                    color="light"
-                    outline
-                    floating
-                  >
-                    <MDBIcon fab icon="github-alt" size="2x" />
-                  </MDBBtn>
-                </Link>
-                <h6 className="text-white" style={{ paddingLeft: '2%' }}>
-                  GitHub Login
-                </h6>
-              </> 
-            )} */}
           </MDBCollapse>
         </MDBContainer>
       </MDBNavbar>
