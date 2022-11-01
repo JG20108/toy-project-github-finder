@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from './components/NavBar';
 import SearchBar from './components/SearchBar';
 import UserCards from './components/UserCards';
@@ -10,35 +10,48 @@ import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Home() {
-  const { users, loading } = useSelector((state) => state.users); // Get users from store
+  const { users, loading } = useSelector((state) => state.users);
+  const [accessToken, setAccessToken] = useState([]);
   const [searchParams] = useSearchParams();
   const githubCode = searchParams.get('code');
   const client_id = process.env.REACT_APP_CLIENT_ID;
   const client_secret = process.env.REACT_APP_CLIENT_SECRET;
+  const redirect_uri = process.env.REACT_APP_REDIRECT_URI;
 
   useEffect(() => {
-    if (githubCode) {
-      (async () => {
-        const response = await axios
-          .post(
-            `https://github.com/login/oauth/access_token?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}&code=${githubCode}`,
-            {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': 'true',
-              },
-            }
-          )
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            // console.log(error);
-          });
-      })();
-    }
+    axios(
+      `https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${githubCode}&redirect_uri=${redirect_uri}`,
+      {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          Accept: 'application/json',
+        },
+      }
+    )
+      .then((response) => console.log(response))
+      .then((responseData) => {
+        setAccessToken(responseData.access_token);
+        console.log(accessToken);
+      });
+
+    // fetch(
+    //   `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${githubCode}&redirect_uri=${redirect_uri}`,
+    //   {
+    //     method: 'POST',
+    //     mode: 'no-cors',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   }
+    // )
+    //   .then((response) => console.log(response))
+    //   .then((responseData) => {
+    //     setAccessToken(responseData.access_token);
+    //     console.log(accessToken);
+    //   });
   }, [githubCode]);
 
   return (

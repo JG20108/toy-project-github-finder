@@ -98,14 +98,19 @@ function NavBar() {
               </MDBNavbarItem>
               <MDBNavbarItem>
                 <MDBBtn
+                  floating
+                  size=""
+                  tag="a"
+                  className="ms-3"
                   onClick={() =>
                     window.open(
                       `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}`,
-                      '_blank'
+                      '_self'
                     )
                   }
-                ></MDBBtn>
-                <MDBIcon className="ps-2" fab icon="github-alt" size="x" />
+                >
+                  <MDBIcon size='2x' fab icon="github-alt" />
+                </MDBBtn>
               </MDBNavbarItem>
             </MDBNavbarNav>
           </MDBCollapse>
