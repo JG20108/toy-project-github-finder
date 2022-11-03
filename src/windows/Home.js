@@ -6,7 +6,7 @@ import Pagination from './components/Pagination';
 import Footer from './components/Footer';
 import { MDBContainer, MDBRow } from 'mdb-react-ui-kit';
 import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Home() {
@@ -23,7 +23,6 @@ export default function Home() {
       `https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${githubCode}&redirect_uri=${redirect_uri}`,
       {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
@@ -31,50 +30,40 @@ export default function Home() {
         },
       }
     )
-      .then((response) => console.log(response))
+      .then((response) => response.data)
       .then((responseData) => {
         setAccessToken(responseData.access_token);
-        console.log(accessToken);
+        if (responseData.access_token) {
+          localStorage.setItem('accessToken', responseData.access_token);
+        }
+        console.log(responseData);
       });
-
-    // fetch(
-    //   `https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${githubCode}&redirect_uri=${redirect_uri}`,
-    //   {
-    //     method: 'POST',
-    //     mode: 'no-cors',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   }
-    // )
-    //   .then((response) => console.log(response))
-    //   .then((responseData) => {
-    //     setAccessToken(responseData.access_token);
-    //     console.log(accessToken);
-    //   });
   }, [githubCode]);
 
-  return (
-    <>
-      <NavBar></NavBar>
-      <MDBContainer>
-        <SearchBar></SearchBar>
-        <MDBRow>
-          {loading ? (
-            <h1>Loading</h1>
-          ) : (
-            <>
-              {users.length !== 0 &&
-                users.map((user) => (
-                  <UserCards key={user.id} user={user}></UserCards>
-                ))}
-            </> // If loading is false, show users
-          )}
-        </MDBRow>
-      </MDBContainer>
-      <Pagination></Pagination>
-      <br />
-      <Footer></Footer>
-    </>
-  );
+  // if (localStorage.getItem('accessToken') !== '') {
+    return (
+      <>
+        <NavBar></NavBar>
+        <MDBContainer>
+          <SearchBar></SearchBar>
+          <MDBRow>
+            {loading ? (
+              <h1>Loading</h1>
+            ) : (
+              <>
+                {users.length !== 0 &&
+                  users.map((user) => (
+                    <UserCards key={user.id} user={user}></UserCards>
+                  ))}
+              </>
+            )}
+          </MDBRow>
+        </MDBContainer>
+        <Pagination></Pagination>
+        <Footer></Footer>
+      </>
+    );
+  // } else {
+  //   return <Navigate to="/login" />;
+  // }
 }

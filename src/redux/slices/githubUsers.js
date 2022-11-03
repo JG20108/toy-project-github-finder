@@ -1,16 +1,34 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// create action for users
+// Authenticated user
+export const fetchAuthenticatedUser = createAsyncThunk(
+  'users/authenticated',
+  async (accessToken, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.get(`https://api.github.com/user`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return data;
+    } catch (err) {
+      if (!err?.response) {
+        throw err;
+      }
+      return rejectWithValue(err?.response);
+    }
+  }
+);
+
+// Gets users
 export const fetchUsers = createAsyncThunk(
   'users/list',
   async (query, { rejectWithValue, getState, dispatch }) => {
     try {
-      // make http call
       const { data } = await axios.get(
         `https://api.github.com/search/users?q=${query}&page=1&per_page=3`
       );
-      // console.log(data);
       return data?.items;
     } catch (err) {
       if (!err?.response) {
@@ -21,16 +39,14 @@ export const fetchUsers = createAsyncThunk(
   }
 );
 
-// create action for users
+// Default user extraction
 export const fetchDefault = createAsyncThunk(
   'users/list',
   async (query, { rejectWithValue, getState, dispatch }) => {
     try {
-      // make http call
       const { data } = await axios.get(
         `https://api.github.com/search/users?q=${query}&page=1&per_page=1`
       );
-      // console.log(data);
       return data?.items;
     } catch (err) {
       if (!err?.response) {
@@ -41,12 +57,11 @@ export const fetchDefault = createAsyncThunk(
   }
 );
 
-// Slice
-const githubUsersSlice = createSlice({
+// Slice for users
+export const githubUsersSlice = createSlice({
   name: 'users',
   initialState: { users: [], loading: false, error: null }, // initial state of the slice
   extraReducers: (builder) => {
-    // users reducers
     builder.addCase(fetchUsers.pending, (state, action) => {
       state.loading = true;
     });
@@ -63,25 +78,25 @@ const githubUsersSlice = createSlice({
   },
 });
 
-// Slice
-export const githubDefaultSlice = createSlice({
-  name: 'users',
-  initialState: { users: [], loading: false, error: null }, // initial state of the slice
+// Slice for Authenticated user
+export const githubAuthenticatedUserSlice = createSlice({
+  name: 'authenticatedUser',
+  initialState: { user: {}, loading: false, error: null },
   extraReducers: (builder) => {
-    // users reducers
-    builder.addCase(fetchUsers.pending, (state, action) => {
+    builder.addCase(fetchAuthenticatedUser.pending, (state, action) => {
       state.loading = true;
     });
-    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+    builder.addCase(fetchAuthenticatedUser.fulfilled, (state, action) => {
       state.loading = false;
-      state.users = action?.payload;
+      state.user = action?.payload;
       state.error = null;
     });
-    builder.addCase(fetchUsers.rejected, (state, action) => {
+    builder.addCase(fetchAuthenticatedUser.rejected, (state, action) => {
       state.loading = false;
-      state.users = [];
+      state.user = {};
       state.error = action?.payload;
     });
   },
 });
+
 export default githubUsersSlice.reducer;

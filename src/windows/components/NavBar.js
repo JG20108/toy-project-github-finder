@@ -1,8 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import React, { useContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import { authAction } from '../../redux/slices/githubAuth';
+import React, { useState } from 'react';
 import {
   MDBNavbar,
   MDBContainer,
@@ -12,51 +9,10 @@ import {
   MDBNavbarToggler,
   MDBNavbarBrand,
   MDBCollapse,
-  MDBBtn,
 } from 'mdb-react-ui-kit';
 
-function NavBar() {
-  const [userDetail, setUserDetail] = useState();
-
-  // // Dispatch
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(authAction());
-  // }, [dispatch ]);
-
+export default function NavBar({ user }) {
   const [showNavColor, setShowNavColor] = useState(false);
-
-  // function loginWithGithub() {
-  //   window.location.assign(
-  //     'https://github.com/login/oauth/authorize?client_id=' + CLIENT_ID
-  //   );
-  // }
-
-  // useEffect(() => {
-  //   const queryString = window.location.search;
-  //   const urlParams = new URLSearchParams(queryString);
-  //   const codeParam = urlParams.get('code');
-  //   console.log(codeParam);
-
-  //   if (codeParam && localStorage.getItem('accessToken') === null) {
-  //     async function getAccessToken() {
-  //       await fetch('http://localhost:4000/getAccessToken?code=' + codeParam, {
-  //         method: 'GET',
-  //       })
-  //         .then((response) => {
-  //           return response.json();
-  //         })
-  //         .then((data) => {
-  //           console.log('data', data);
-  //           if (data.access_token) {
-  //             localStorage.setItem('accessToken', data.access_token);
-  //             setRerender(!rerender);
-  //           }
-  //         });
-  //     }
-  //     getAccessToken();
-  //   }
-  // }, []);
 
   return (
     <>
@@ -82,9 +38,20 @@ function NavBar() {
                 </NavLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <NavLink className="nav-link" to="/profile">
-                  Profile
-                </NavLink>
+                {localStorage.getItem('accessToken') === null ? (
+                  <NavLink
+                    className="nav-link"
+                    onClick={() => {
+                      alert('Please log in');
+                    }}
+                  >
+                    Profile
+                  </NavLink>
+                ) : (
+                  <NavLink className="nav-link" to={`/profile`}>
+                    Profile
+                  </NavLink>
+                )}
               </MDBNavbarItem>
               <MDBNavbarItem>
                 <NavLink className="nav-link" to="/technologies">
@@ -92,25 +59,12 @@ function NavBar() {
                 </NavLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <NavLink className="nav-link" to="/xd">
-                  How to use
-                </NavLink>
-              </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBBtn
-                  floating
-                  size=""
-                  tag="a"
-                  className="ms-3"
-                  onClick={() =>
-                    window.open(
-                      `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}`,
-                      '_self'
-                    )
-                  }
+                <NavLink
+                  className="nav-link"
+                  to={`/login`}
                 >
-                  <MDBIcon size='2x' fab icon="github-alt" />
-                </MDBBtn>
+                  <MDBIcon className="fas fa-sign-out-alt" /> Logout
+                </NavLink>
               </MDBNavbarItem>
             </MDBNavbarNav>
           </MDBCollapse>
@@ -119,5 +73,3 @@ function NavBar() {
     </>
   );
 }
-
-export default NavBar;

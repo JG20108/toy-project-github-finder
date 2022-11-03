@@ -21,22 +21,20 @@ import {
 } from 'mdb-react-ui-kit';
 
 export default function DetailedView() {
-  const {user} = useParams();
+  const { user } = useParams();
   const [userDetail, setUserDetail] = useState(user);
 
-  // Dispatch
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchReposAction(userDetail));
     dispatch(fetchUserDetailAction(userDetail));
   }, [dispatch, userDetail]);
 
-  // Get the data
   const store = useSelector((state) => state?.repos);
   const { loading, reposList, profile, error } = store;
 
   return (
-    <section style={{ backgroundColor: '#eee', height:'100%'}}>
+    <section style={{ backgroundColor: '#eee', height: '100%' }}>
       <MDBContainer className="py-3">
         {loading ? (
           <h1 className="text-center">Loading data please wait...</h1>
@@ -76,7 +74,7 @@ export default function DetailedView() {
 
               <MDBCard className="mb-4 mb-lg-0">
                 <MDBCardBody className="p-0">
-                  <MDBListGroup flush className="rounded-3">
+                  <MDBListGroup className="rounded-3">
                     <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
                       <MDBIcon fas icon="globe fa-lg" />
                       <MDBCardText>
@@ -176,7 +174,7 @@ export default function DetailedView() {
                     <MDBCol sm="9">
                       {reposList?.name !== 'Error' &&
                         reposList?.map((repo) => (
-                          <>
+                          <React.Fragment key={repo?.id}>
                             <div>
                               <a
                                 href={repo?.html_url}
@@ -187,7 +185,7 @@ export default function DetailedView() {
                                 {repo?.name}
                               </a>
                             </div>
-                          </>
+                          </React.Fragment>
                         ))}
                     </MDBCol>
                   </MDBRow>

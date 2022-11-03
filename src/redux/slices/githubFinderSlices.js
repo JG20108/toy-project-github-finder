@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// create action for repos
+// Fetch Repos
 export const fetchReposAction = createAsyncThunk(
   'repos/list',
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
-      // make http call
       const { data } = await axios.get(
         `https://api.github.com/users/${payload}/repos?per_page=15&sort=created:asc`
       );
@@ -20,12 +19,11 @@ export const fetchReposAction = createAsyncThunk(
   }
 );
 
-// create action for user detailed profile
+// Gets user detailed profile
 export const fetchUserDetailAction = createAsyncThunk(
   'profile/list',
   async (user, { rejectWithValue, getState, dispatch }) => {
     try {
-      // make http call
       const { data } = await axios.get(`https://api.github.com/users/${user}`);
       return data;
     } catch (err) {
@@ -37,12 +35,11 @@ export const fetchUserDetailAction = createAsyncThunk(
   }
 );
 
-// slices
+// Slice for repos
 const reposSlices = createSlice({
   name: 'repos',
   initialState: {user:''},
   extraReducers: (builder) => {
-    // repos reducers
     builder.addCase(fetchReposAction.pending, (state, actions) => {
       state.loading = true;
     });
@@ -57,7 +54,7 @@ const reposSlices = createSlice({
       state.error = action?.payload;
     })
 
-    // profile
+    // Slice for fetching users
     builder.addCase(fetchUserDetailAction.pending, (state, action) => {
       state.loading = true;
     })
