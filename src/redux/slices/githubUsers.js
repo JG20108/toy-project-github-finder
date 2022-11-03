@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const bearer = localStorage.getItem('accessToken');
+
 // Authenticated user
 export const fetchAuthenticatedUser = createAsyncThunk(
   'users/authenticated',
@@ -48,6 +50,35 @@ export const fetchDefault = createAsyncThunk(
         `https://api.github.com/search/users?q=${query}&page=1&per_page=1`
       );
       return data?.items;
+    } catch (err) {
+      if (!err?.response) {
+        throw err;
+      }
+      return rejectWithValue(err?.response);
+    }
+  }
+);
+
+// Follow a user
+export const followUser = createAsyncThunk(
+  'follow/user',
+  async (user, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { response } = await axios(
+        `https://cors-anywhere.herokuapp.com/https://api.github.com/user/following/${user}`,
+        {
+          method: 'PUT',
+          mode: 'no-cors',
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            Accept: 'application/vnd.github+json',
+            // 'Content-Length': 0,
+          },
+        }
+      );
+      return response;
     } catch (err) {
       if (!err?.response) {
         throw err;

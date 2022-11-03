@@ -9,6 +9,9 @@ import {
   Navigate,
 } from 'react-router-dom';
 
+import PrivateRoute from './windows/components/privateRoute';
+import PublicRoute from './windows/components/publicRoute';
+
 import Home from './windows/Home';
 import Profile from './windows/ProfileScreen';
 import Technologies from './windows/TechnologiesScreen';
@@ -38,7 +41,9 @@ const App = () => {
           path="/login"
           element={
             <>
-              <Login />
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
             </>
           }
         />
@@ -46,7 +51,9 @@ const App = () => {
           path="/"
           element={
             <>
-              <Home />
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
             </>
           }
         />
@@ -54,7 +61,9 @@ const App = () => {
           path="/profile"
           element={
             <>
-              <Profile />
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
             </>
           }
         />
@@ -62,7 +71,9 @@ const App = () => {
           path="/technologies"
           element={
             <>
-              <Technologies />
+              <PrivateRoute>
+                <Technologies />
+              </PrivateRoute>
             </>
           }
         />
@@ -70,7 +81,9 @@ const App = () => {
           path="/details/:user"
           element={
             <>
-              <DetailedView />
+              <PrivateRoute>
+                <DetailedView />
+              </PrivateRoute>
             </>
           }
         />

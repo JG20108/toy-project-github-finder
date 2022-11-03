@@ -62,6 +62,7 @@ export default function NavBar({ user }) {
                 <NavLink
                   className="nav-link"
                   to={`/login`}
+                  onClick={() => { localStorage.setItem('accessToken', ''); }}
                 >
                   <MDBIcon className="fas fa-sign-out-alt" /> Logout
                 </NavLink>
