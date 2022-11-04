@@ -1,36 +1,73 @@
-import React, {useState, useEffect} from 'react';
-import { MDBPagination, MDBPaginationItem, MDBPaginationLink } from 'mdb-react-ui-kit';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPage } from '../../redux/slices/githubUsers';
+import ReactPaginate from 'react-paginate';
+import styled from 'styled-components';
 
-export default function App() {
-
-
-  useEffect(() => {
-    
-  });
+export default function Pagination() {
+  const { total_pages } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
 
   return (
-    <nav aria-label='Page navigation example'>
-      <MDBPagination center className='mb-0'>
-        <MDBPaginationItem>
-          <MDBPaginationLink href='#' aria-label='Previous'>
-            <span aria-hidden='true'>«</span>
-          </MDBPaginationLink>
-        </MDBPaginationItem>
-        <MDBPaginationItem>
-          <MDBPaginationLink href='#'>1</MDBPaginationLink>
-        </MDBPaginationItem>
-        <MDBPaginationItem>
-          <MDBPaginationLink href='#'>2</MDBPaginationLink>
-        </MDBPaginationItem>
-        <MDBPaginationItem>
-          <MDBPaginationLink href='#'>3</MDBPaginationLink>
-        </MDBPaginationItem>
-        <MDBPaginationItem>
-          <MDBPaginationLink href='#' aria-label='Next'>
-            <span aria-hidden='true'>»</span>
-          </MDBPaginationLink>
-        </MDBPaginationItem>
-      </MDBPagination>
-    </nav>
+    <React.Fragment style={{ justifyContent: 'center' }}>
+      <Wrapper style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <ReactPaginate
+          style={{ justifyContent: 'center', alignItems: 'center' }}
+          breakLabel="..."
+          nextLabel=">>"
+          onPageChange={(event) => {
+            dispatch(setPage(event.selected + 1));
+          }}
+          pageRangeDisplayed={5}
+          pageCount={total_pages}
+          previousLabel="<<"
+          renderOnZeroPageCount={null}
+          marginPagesDisplayed={2}
+          containerClassName={'pagination justify-content-center'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+      </Wrapper>
+    </React.Fragment>
   );
 }
+
+const Wrapper = styled.section`
+  .pagination {
+    margin: 15px auto;
+    display: flex;
+    list-style: none;
+    outline: none;
+  }
+  .pagination > .active > a {
+    background-color: #0036FF;
+    border-color: #0036FF;
+    color: #fff;
+  }
+  .pagination > li > a {
+    border: 1px solid #0036FF;
+    padding: 5px 10px;
+    outline: none;
+    cursor: pointer;
+  }
+  .pagination > .active > a,
+  .pagination > .active > span,
+  .pagination > .active > a:hover,
+  .pagination > .active > span:hover,
+  .pagination > .active > a:focus,
+  .pagination > .active > span:focus {
+    background-color: #0036FF;
+    border-color: #0036FF;
+    outline: none;
+  }
+  .pagination > li > a,
+  .pagination > li > span {
+    color: #0036FF;
+  }
+  .pagination > li:first-child > a,
+  .pagination > li:first-child > span,
+  .pagination > li:last-child > a,
+  .pagination > li:last-child > span {
+    border-radius: unset;
+  }
+`;

@@ -26,12 +26,16 @@ export const fetchAuthenticatedUser = createAsyncThunk(
 // Gets users
 export const fetchUsers = createAsyncThunk(
   'users/list',
-  async (query, { rejectWithValue, getState, dispatch }) => {
+  async (
+    { query, per_page, page },
+    { rejectWithValue, getState, dispatch }
+  ) => {
     try {
+      console.log('query', query);
       const { data } = await axios.get(
-        `https://api.github.com/search/users?q=${query}&page=1&per_page=3`
+        `https://api.github.com/search/users?q=${query}&page=${page}&per_page=${per_page}`
       );
-      return data?.items;
+      return { items: data?.items, total_count: data?.total_count };
     } catch (err) {
       if (!err?.response) {
         throw err;
@@ -44,12 +48,15 @@ export const fetchUsers = createAsyncThunk(
 // Default user extraction
 export const fetchDefault = createAsyncThunk(
   'users/list',
-  async (query, { rejectWithValue, getState, dispatch }) => {
+  async (
+    {query, per_page, page },
+    { rejectWithValue, getState, dispatch }
+  ) => {
     try {
       const { data } = await axios.get(
-        `https://api.github.com/search/users?q=${query}&page=1&per_page=1`
+        `https://api.github.com/search/users?q=${query}&page=${page}&per_page=${per_page}`
       );
-      return data?.items;
+      return { items: data?.items, total_count: data?.total_count };
     } catch (err) {
       if (!err?.response) {
         throw err;
@@ -91,21 +98,44 @@ export const followUser = createAsyncThunk(
 // Slice for users
 export const githubUsersSlice = createSlice({
   name: 'users',
-  initialState: { users: [], loading: false, error: null }, // initial state of the slice
+  initialState: {
+    users: [],
+    loading: false,
+    error: null,
+    per_page: 6,
+    page: 1,
+    total_pages: null,
+    debouncedTerm: '',
+  }, // initial state of the slice
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.pending, (state, action) => {
       state.loading = true;
     });
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      const { items, total_count } = action.payload;
       state.loading = false;
-      state.users = action?.payload;
+      state.users = items;
       state.error = null;
+      if (state.page === 1) {
+        state.total_pages = Math.ceil(total_count / state.per_page);
+        if (state.total_pages > 20) {
+          state.total_pages = 20;
+        }
+      }
     });
     builder.addCase(fetchUsers.rejected, (state, action) => {
       state.loading = false;
       state.users = [];
       state.error = action?.payload;
     });
+  },
+  reducers: {
+    setPage: (state, action) => {
+      state.page = action?.payload;
+    },
+    setDebouncedTerm: (state, action) => {
+      state.debouncedTerm = action?.payload;
+    },
   },
 });
 
@@ -131,3 +161,4 @@ export const githubAuthenticatedUserSlice = createSlice({
 });
 
 export default githubUsersSlice.reducer;
+export const { setPage, setDebouncedTerm } = githubUsersSlice.actions;

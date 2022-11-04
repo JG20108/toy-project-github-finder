@@ -12,32 +12,11 @@ import { useSearchParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { useDispatch } from 'react-redux';
 import { followUser } from '../../redux/slices/githubUsers';
-import axios from 'axios';
 
 export default function UserCards({ user }) {
   const [searchParams] = useSearchParams();
-  const username = user?.login;
-  const bearer = localStorage.getItem('accessToken');
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(followUser(username));
-  }, [dispatch, username]);
-
-  useEffect(() => {
-    axios(
-      `https://cors-anywhere.herokuapp.com/https://api.github.com/user/following`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${bearer}`,
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          Accept: 'application/vnd.github+json',
-        },
-      }
-    ).then((response) => response.data);
-  }, []);
 
   if (searchParams && localStorage.getItem('accessToken') === '') {
     return (
