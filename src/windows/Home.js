@@ -22,8 +22,8 @@ export default function Home() {
     if (query !== '') {
       dispatch(fetchUsers({ query, page, per_page }));
     } else {
-      const query = 'escolarea';
-      dispatch(fetchDefault({ query, page, per_page }));
+      const defaultUser = 'github';
+      dispatch(fetchDefault({ defaultUser, page, per_page }));
     }
   }, [dispatch, query, page]);
 

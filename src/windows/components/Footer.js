@@ -11,9 +11,7 @@ export default function App() {
   return (
     <MDBFooter
       style={{
-        left: 0,
-        bottom: 0,
-        right: 0,
+        marginTop: '15%',
       }}
       bgColor="light"
       className="text-center text-lg-start text-muted"

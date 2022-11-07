@@ -34,7 +34,7 @@ export default function DetailedView() {
   const { loading, reposList, profile, error } = store;
 
   return (
-    <section style={{ backgroundColor: '#eee', height: '100%' }}>
+    <section style={{ backgroundColor: '#eee'}}>
       <MDBContainer className="py-3">
         {loading ? (
           <h1 className="text-center">Loading data please wait...</h1>

@@ -9,6 +9,7 @@ import {
   MDBNavbarToggler,
   MDBNavbarBrand,
   MDBCollapse,
+  MDBBtn,
 } from 'mdb-react-ui-kit';
 
 export default function NavBar({ user }) {
@@ -58,16 +59,16 @@ export default function NavBar({ user }) {
                   Technologies
                 </NavLink>
               </MDBNavbarItem>
-              <MDBNavbarItem>
-                <NavLink
-                  className="nav-link"
-                  to={`/login`}
-                  onClick={() => { localStorage.setItem('accessToken', ''); }}
-                >
-                  <MDBIcon className="fas fa-sign-out-alt" /> Logout
-                </NavLink>
-              </MDBNavbarItem>
             </MDBNavbarNav>
+            <NavLink
+              className="nav-link text-white"
+              to={`/login`}
+              onClick={() => {
+                localStorage.setItem('accessToken', '');
+              }}
+            >
+              <MDBIcon className="fas fa-sign-out-alt" /> Logout
+            </NavLink>
           </MDBCollapse>
         </MDBContainer>
       </MDBNavbar>

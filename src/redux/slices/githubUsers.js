@@ -49,12 +49,12 @@ export const fetchUsers = createAsyncThunk(
 export const fetchDefault = createAsyncThunk(
   'users/list',
   async (
-    {query, per_page, page },
+    { defaultUser, per_page, page },
     { rejectWithValue, getState, dispatch }
   ) => {
     try {
       const { data } = await axios.get(
-        `https://api.github.com/search/users?q=${query}&page=${page}&per_page=${per_page}`
+        `https://api.github.com/search/users?q=${defaultUser}&page=${page}&per_page=${per_page}`
       );
       return { items: data?.items, total_count: data?.total_count };
     } catch (err) {
@@ -62,6 +62,7 @@ export const fetchDefault = createAsyncThunk(
         throw err;
       }
       return rejectWithValue(err?.response);
+
     }
   }
 );
@@ -118,8 +119,8 @@ export const githubUsersSlice = createSlice({
       state.error = null;
       if (state.page === 1) {
         state.total_pages = Math.ceil(total_count / state.per_page);
-        if (state.total_pages > 20) {
-          state.total_pages = 20;
+        if (state.total_pages > 167) {
+          state.total_pages = 167;
         }
       }
     });

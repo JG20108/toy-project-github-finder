@@ -9,10 +9,8 @@ export default function Pagination() {
   const dispatch = useDispatch();
 
   return (
-    <React.Fragment style={{ justifyContent: 'center' }}>
-      <Wrapper style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <Wrapper>
         <ReactPaginate
-          style={{ justifyContent: 'center', alignItems: 'center' }}
           breakLabel="..."
           nextLabel=">>"
           onPageChange={(event) => {
@@ -28,7 +26,6 @@ export default function Pagination() {
           activeClassName={'active'}
         />
       </Wrapper>
-    </React.Fragment>
   );
 }
 
@@ -38,6 +35,10 @@ const Wrapper = styled.section`
     display: flex;
     list-style: none;
     outline: none;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    margin-bottom: -12%;
   }
   .pagination > .active > a {
     background-color: #0036FF;

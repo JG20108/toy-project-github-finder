@@ -12,7 +12,6 @@ import {
   MDBCardText,
   MDBCardBody,
   MDBCardImage,
-  MDBBtn,
   MDBIcon,
   MDBListGroup,
   MDBListGroupItem,
@@ -72,9 +71,7 @@ export default function DetailedView() {
                     <p className="text-muted mb-1"> ID: {user?.id} </p>
                     <p className="text-muted mb-1"> Full Name: {user?.name} </p>
                     <p className="text-muted mb-4"> Username: {user?.login}</p>
-                    <div className="d-flex justify-content-center mb-2">
-                      <MDBBtn>Follow</MDBBtn>
-                    </div>
+                    
                     <p className="text-muted mb-4">
                       {' '}
                       Followers: {user?.followers}

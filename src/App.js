@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import {
   BrowserRouter,
   Routes,
   Route,
-  Router,
-  Navigate,
 } from 'react-router-dom';
 
 import PrivateRoute from './windows/components/privateRoute';
