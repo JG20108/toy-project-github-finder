@@ -6,7 +6,9 @@ import Pagination from './components/Pagination';
 import Footer from './components/Footer';
 import { MDBContainer, MDBRow, MDBSpinner } from 'mdb-react-ui-kit';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUsers, fetchDefault } from '../redux/slices/githubUsers';
+// eslint-disable-next-line no-unused-vars
+import { fetchUsers, fetchDefault, fetchAuthenticatedUser } from '../redux/slices/githubUsers';
+const { Octokit } = require("@octokit/rest");
 
 export default function Home() {
   const {
@@ -18,6 +20,17 @@ export default function Home() {
   } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
+  const bearer = localStorage.getItem('accessToken');
+
+  // eslint-disable-next-line no-unused-vars
+  const octokit = new Octokit({
+    auth: `${bearer}`
+  })
+
+  useEffect(() => {
+    dispatch(fetchAuthenticatedUser(bearer));
+  }, [dispatch, bearer]);
+
   useEffect(() => {
     if (query !== '') {
       dispatch(fetchUsers({ query, page, per_page }));
@@ -25,6 +38,7 @@ export default function Home() {
       const defaultUser = 'github';
       dispatch(fetchDefault({ defaultUser, page, per_page }));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, query, page]);
 
   return (

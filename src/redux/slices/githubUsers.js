@@ -1,7 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+const { Octokit } = require("@octokit/rest");
 
 const bearer = localStorage.getItem('accessToken');
+
+const octokit = new Octokit({
+  auth: `${bearer}`
+})
 
 // Authenticated user
 export const fetchAuthenticatedUser = createAsyncThunk(
@@ -62,29 +67,37 @@ export const fetchDefault = createAsyncThunk(
         throw err;
       }
       return rejectWithValue(err?.response);
-
     }
   }
 );
 
-// Follow a user
+export const checkFollowedUser = createAsyncThunk(
+  'follow/user',
+  async (user, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { response } = await axios(
+        await octokit.request(`GET /user/following/${user}`, {
+          username: `${user}`,
+        })
+      );
+      return response;
+    } catch (err) {
+      if (!err?.response) {
+        throw err;
+      }
+      return rejectWithValue(err?.response);
+    }
+  }
+);
+
 export const followUser = createAsyncThunk(
   'follow/user',
   async (user, { rejectWithValue, getState, dispatch }) => {
     try {
       const { response } = await axios(
-        `https://cors-anywhere.herokuapp.com/https://api.github.com/user/following/${user}`,
-        {
-          method: 'PUT',
-          mode: 'no-cors',
-          headers: {
-            Authorization: `Bearer ${bearer}`,
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            Accept: 'application/vnd.github+json',
-            // 'Content-Length': 0,
-          },
-        }
+        await octokit.request(`PUT /user/following/${user}`, {
+          username: `${user}`,
+        })
       );
       return response;
     } catch (err) {

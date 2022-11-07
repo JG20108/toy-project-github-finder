@@ -9,7 +9,6 @@ import {
   MDBNavbarToggler,
   MDBNavbarBrand,
   MDBCollapse,
-  MDBBtn,
 } from 'mdb-react-ui-kit';
 
 export default function NavBar({ user }) {
@@ -67,7 +66,7 @@ export default function NavBar({ user }) {
                 localStorage.setItem('accessToken', '');
               }}
             >
-              <MDBIcon className="fas fa-sign-out-alt" /> Logout
+              <MDBIcon className="fas fa-sign-out-alt" /> Logout 
             </NavLink>
           </MDBCollapse>
         </MDBContainer>

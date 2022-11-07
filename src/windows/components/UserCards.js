@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -11,12 +12,14 @@ import {
 import { useSearchParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import { useDispatch } from 'react-redux';
-import { followUser } from '../../redux/slices/githubUsers';
+import { followUser, checkFollowedUser } from '../../redux/slices/githubUsers';
 
 export default function UserCards({ user }) {
   const [searchParams] = useSearchParams();
 
   const dispatch = useDispatch();
+
+  dispatch(checkFollowedUser(user?.login));                    
 
   if (searchParams && localStorage.getItem('accessToken') === '') {
     return (
@@ -67,7 +70,7 @@ export default function UserCards({ user }) {
                   <MDBBtn
                     className="flex-grow-1"
                     onClick={() => {
-                      dispatch(followUser(user?.login));
+                      dispatch(followUser(user?.login));                    
                     }}
                   >
                     Follow

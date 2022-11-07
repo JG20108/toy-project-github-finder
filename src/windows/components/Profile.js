@@ -18,6 +18,7 @@ import {
 } from 'mdb-react-ui-kit';
 
 export default function DetailedView() {
+  // eslint-disable-next-line no-unused-vars
   const repoIds = useId();
 
   const accessToken = localStorage.getItem('accessToken');

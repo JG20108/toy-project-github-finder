@@ -16,6 +16,7 @@ import axios from 'axios';
 export default function LoginScreen() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  // eslint-disable-next-line no-unused-vars
   const [accessToken, setAccessToken] = useState([]);
   const githubCode = searchParams.get('code');
 
@@ -53,6 +54,7 @@ export default function LoginScreen() {
           console.log(responseData);
         });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [githubCode]);
 
   return (
@@ -84,7 +86,7 @@ export default function LoginScreen() {
                   size="lg"
                   onClick={() =>
                     window.open(
-                      `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&login=${login}`,
+                      `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&login=${login}&scope=user:follow`,
                       '_self'
                     )
                   }
