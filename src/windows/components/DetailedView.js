@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import {
   fetchReposAction,
   fetchUserDetailAction,
 } from '../../redux/slices/githubFinderSlices';
-import React from 'react';
 import {
   MDBCol,
   MDBContainer,
@@ -19,13 +18,38 @@ import {
   MDBListGroup,
   MDBListGroupItem,
 } from 'mdb-react-ui-kit';
+import {
+  followUser,
+  checkFollowedUser,
+  unfollowUser,
+} from '../../redux/slices/githubUsers';
 
 export default function DetailedView() {
   const { user } = useParams();
+  // eslint-disable-next-line no-unused-vars
   const [userDetail, setUserDetail] = useState(user);
+  // eslint-disable-next-line no-unused-vars
+  const bearer = localStorage.getItem('accessToken');
+
 
   const dispatch = useDispatch();
+  // eslint-disable-next-line no-unused-vars
+  const response = '';
+
+  let [statusCode, setStatusCode] = useState(0);
+
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   useEffect(() => {
+    const response = dispatch(checkFollowedUser(userDetail));
+
+    (async () => {
+      let res = await response;
+      setStatusCode(res.payload);
+    })();
+
     dispatch(fetchReposAction(userDetail));
     dispatch(fetchUserDetailAction(userDetail));
   }, [dispatch, userDetail]);
@@ -33,8 +57,50 @@ export default function DetailedView() {
   const store = useSelector((state) => state?.repos);
   const { loading, reposList, profile, error } = store;
 
+  let button;
+
+  if (statusCode === 404 || statusCode.status === 404) {
+    button = (
+      <MDBBtn
+        className="flex-grow-1"
+        onClick={() => {
+          dispatch(followUser(userDetail));
+          // eslint-disable-next-line no-lone-blocks
+          {refreshPage()};
+        }}
+      >
+        Follow
+      </MDBBtn>
+    );
+  } else if (statusCode === 204 || statusCode.status === 204) {
+    button = (
+      <MDBBtn
+        className="flex-grow-1"
+        color="tertiary"
+        onClick={() => {
+          dispatch(unfollowUser(userDetail));
+          // eslint-disable-next-line no-lone-blocks
+          {refreshPage()};
+        }}
+      >
+        Unfollow{' '}
+      </MDBBtn>
+    );
+  } else
+   {
+    button = (
+      <MDBBtn
+        className="flex-grow-1"
+        onClick={() => {
+        }}
+      >
+        Not a 204 or 404 code{' '}
+      </MDBBtn>
+    );
+  }
+
   return (
-    <section style={{ backgroundColor: '#eee'}}>
+    <section style={{ backgroundColor: '#eee' }}>
       <MDBContainer className="py-3">
         {loading ? (
           <h1 className="text-center">Loading data please wait...</h1>
@@ -59,7 +125,7 @@ export default function DetailedView() {
                   </p>
                   <p className="text-muted mb-4"> Username: {profile?.login}</p>
                   <div className="d-flex justify-content-center mb-2">
-                    <MDBBtn>Follow</MDBBtn>
+                    {button}
                   </div>
                   <p className="text-muted mb-4">
                     {' '}

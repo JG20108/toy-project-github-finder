@@ -28,10 +28,6 @@ export default function Home() {
   })
 
   useEffect(() => {
-    dispatch(fetchAuthenticatedUser(bearer));
-  }, [dispatch, bearer]);
-
-  useEffect(() => {
     if (query !== '') {
       dispatch(fetchUsers({ query, page, per_page }));
     } else {
@@ -39,7 +35,7 @@ export default function Home() {
       dispatch(fetchDefault({ defaultUser, page, per_page }));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, query, page]);
+  }, [dispatch, query, page, bearer]);
 
   return (
     <>

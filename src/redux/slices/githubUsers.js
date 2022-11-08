@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-const { Octokit } = require("@octokit/rest");
+const { Octokit } = require('@octokit/rest');
 
 const bearer = localStorage.getItem('accessToken');
 
 const octokit = new Octokit({
-  auth: `${bearer}`
-})
+  auth: `${bearer}`,
+});
 
 // Authenticated user
 export const fetchAuthenticatedUser = createAsyncThunk(
@@ -16,6 +16,8 @@ export const fetchAuthenticatedUser = createAsyncThunk(
       const { data } = await axios.get(`https://api.github.com/user`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Length': '0',
         },
       });
       return data;
@@ -75,12 +77,16 @@ export const checkFollowedUser = createAsyncThunk(
   'follow/user',
   async (user, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { response } = await axios(
-        await octokit.request(`GET /user/following/${user}`, {
-          username: `${user}`,
-        })
+      const response = await axios.get(
+        `https://api.github.com/user/following/${user}`,
+        {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+          },
+        }
       );
-      return response;
+      console.log('response', response);
+      return response.status;
     } catch (err) {
       if (!err?.response) {
         throw err;
@@ -94,12 +100,53 @@ export const followUser = createAsyncThunk(
   'follow/user',
   async (user, { rejectWithValue, getState, dispatch }) => {
     try {
-      const { response } = await axios(
-        await octokit.request(`PUT /user/following/${user}`, {
-          username: `${user}`,
-        })
+      const { data } = await axios.put(
+        `https://api.github.com/user/following/${user}`,
+        {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+            Accept: 'application/vnd.github.v3+json',
+            'Content-Length': '0',
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+            Accept: 'application/vnd.github.v3+json',
+            'Content-Length': '0',
+          },
+        }
       );
-      return response;
+      return data;
+    } catch (err) {
+      if (!err?.response) {
+        throw err;
+      }
+      return rejectWithValue(err?.response);
+    }
+  }
+);
+
+export const unfollowUser = createAsyncThunk(
+  'unfollow/user',
+  async (user, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.delete(
+        `https://api.github.com/user/following/${user}`,
+        {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+            Accept: 'application/vnd.github.v3+json',
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+            Accept: 'application/vnd.github.v3+json',
+          },
+        }
+      );
+      return data;
     } catch (err) {
       if (!err?.response) {
         throw err;

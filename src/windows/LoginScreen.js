@@ -18,6 +18,7 @@ export default function LoginScreen() {
   const [searchParams] = useSearchParams();
   // eslint-disable-next-line no-unused-vars
   const [accessToken, setAccessToken] = useState([]);
+
   const githubCode = searchParams.get('code');
 
   // .env data
@@ -35,6 +36,8 @@ export default function LoginScreen() {
     if (githubCode) {
       axios(
         `https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${githubCode}&redirect_uri=${redirect_uri}&scope=user:follow`,
+        
+        // `https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${githubCode}&redirect_uri=${redirect_uri}&scope=user`,
         {
           method: 'POST',
           headers: {
@@ -54,7 +57,7 @@ export default function LoginScreen() {
           console.log(responseData);
         });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [githubCode]);
 
   return (
@@ -87,13 +90,15 @@ export default function LoginScreen() {
                   onClick={() =>
                     window.open(
                       `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&login=${login}&scope=user:follow`,
+
+                      // `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&login=${login}&scope=user`,
+
                       '_self'
                     )
                   }
                 >
                   Login
                 </MDBBtn>
-
                 <div className="d-flex flex-row mt-3 mb-0">
                   <MDBIcon
                     className="m-3 mb-0"

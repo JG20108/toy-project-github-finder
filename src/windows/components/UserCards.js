@@ -11,16 +11,10 @@ import {
 } from 'mdb-react-ui-kit';
 import { useSearchParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-import { useDispatch } from 'react-redux';
-import { followUser, checkFollowedUser } from '../../redux/slices/githubUsers';
 
 export default function UserCards({ user }) {
   const [searchParams] = useSearchParams();
-
-  const dispatch = useDispatch();
-
-  dispatch(checkFollowedUser(user?.login));                    
-
+ 
   if (searchParams && localStorage.getItem('accessToken') === '') {
     return (
       <Container style={{ paddingTop: '2%' }}>
@@ -66,14 +60,6 @@ export default function UserCards({ user }) {
                 <div className="d-flex pt-1">
                   <MDBBtn outline className="me-1 flex-grow-1">
                     <Link to={`/details/${user?.login}`}>Details</Link>
-                  </MDBBtn>
-                  <MDBBtn
-                    className="flex-grow-1"
-                    onClick={() => {
-                      dispatch(followUser(user?.login));                    
-                    }}
-                  >
-                    Follow
                   </MDBBtn>
                 </div>
               </div>

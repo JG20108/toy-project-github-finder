@@ -24,7 +24,6 @@ export default function ProfilePage() {
     >
       <MDBContainer className="py-2" style={{ height: '100%' }}>
         <MDBRow>
-          {/* <MDBCol lg="8"> */}
           <MDBCard className="mb-4">
             <MDBCardBody>
               <MDBRow>
@@ -45,24 +44,9 @@ export default function ProfilePage() {
                 </MDBCol>
                 <MDBCol sm="9">
                   <MDBCardText className="text-muted">
-                    {' '}
                     A package that provides DOM specific methods that can be
                     used at the top level of a web app to enable an efficient
-                    way of managing DOM elements of the web page.{' '}
-                  </MDBCardText>
-                </MDBCol>
-              </MDBRow>
-              <hr />
-              <MDBRow>
-                <MDBCol sm="3">
-                  <MDBCardText>React Query</MDBCardText>
-                </MDBCol>
-                <MDBCol sm="9">
-                  <MDBCardText className="text-muted">
-                    It is often described as the missing data-fetching library
-                    for React. Still, in more technical terms, it makes
-                    fetching, caching, synchronizing, and updating server state
-                    in your React applications a breeze.
+                    way of managing DOM elements of the web page.
                   </MDBCardText>
                 </MDBCol>
               </MDBRow>
@@ -101,7 +85,6 @@ export default function ProfilePage() {
                 </MDBCol>
                 <MDBCol sm="9">
                   <MDBCardText className="text-muted">
-                    {' '}
                     Redux Thunk is middleware that allows you to return
                     functions, rather than just actions, within Redux. This
                     allows for delayed actions, including working with promises.
@@ -115,9 +98,8 @@ export default function ProfilePage() {
                 </MDBCol>
                 <MDBCol sm="9">
                   <MDBCardText className="text-muted">
-                    {' '}
                     The most popular CSS Framework for developing responsive and
-                    mobile-first websites.{' '}
+                    mobile-first websites.
                   </MDBCardText>
                 </MDBCol>
               </MDBRow>
@@ -141,13 +123,46 @@ export default function ProfilePage() {
                 </MDBCol>
                 <MDBCol sm="9">
                   <MDBCardText className="text-muted">
-                  The Search API helps you search for the specific item you want to find. For example, you can find a user or a specific file in a repository. Think of it the way you think of performing a search on Google. It's designed to help you find the one result you're looking for (or maybe the few results you're looking for). Just like searching on Google, you sometimes want to see a few pages of search results so that you can find the item that best meets your needs. 
+                    The Search API helps you search for the specific item you
+                    want to find. For example, you can find a user or a specific
+                    file in a repository. Think of it the way you think of
+                    performing a search on Google. It's designed to help you
+                    find the one result you're looking for (or maybe the few
+                    results you're looking for). Just like searching on Google,
+                    you sometimes want to see a few pages of search results so
+                    that you can find the item that best meets your needs.
+                  </MDBCardText>
+                </MDBCol>
+              </MDBRow>
+              <hr />
+              <MDBRow>
+                <MDBCol sm="3">
+                  <MDBCardText>GitHub Users API</MDBCardText>
+                </MDBCol>
+                <MDBCol sm="9">
+                  <MDBCardText className="text-muted">
+                    The Users API allows to get public and private information
+                    about the authenticated user. It also allows to get public
+                    information about any user.
+                  </MDBCardText>
+                </MDBCol>
+              </MDBRow>
+              <hr />
+              <MDBRow>
+                <MDBCol sm="3">
+                  <MDBCardText>GitHub OAuth API</MDBCardText>
+                </MDBCol>
+                <MDBCol sm="9">
+                  <MDBCardText className="text-muted">
+                    GitHub's OAuth implementation supports the standard
+                    authorization code grant type and the OAuth 2.0 Device
+                    Authorization Grant for apps that don't have access to a web
+                    browser.
                   </MDBCardText>
                 </MDBCol>
               </MDBRow>
             </MDBCardBody>
           </MDBCard>
-          {/* </MDBCol> */}
         </MDBRow>
       </MDBContainer>
     </section>
