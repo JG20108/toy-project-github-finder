@@ -64,6 +64,7 @@ export default function NavBar({ user }) {
               to={`/login`}
               onClick={() => {
                 localStorage.setItem('accessToken', '');
+                localStorage.setItem('setupTime', '');
               }}
             >
               <MDBIcon className="fas fa-sign-out-alt" /> Logout 

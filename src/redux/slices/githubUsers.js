@@ -1,14 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-const { Octokit } = require('@octokit/rest');
 
-const bearer = localStorage.getItem('accessToken');
-
-const octokit = new Octokit({
-  auth: `${bearer}`,
-});
-
-// Authenticated user
+// Check if user is authenticated
 export const fetchAuthenticatedUser = createAsyncThunk(
   'users/authenticated',
   async (accessToken, { rejectWithValue, getState, dispatch }) => {
@@ -30,7 +23,7 @@ export const fetchAuthenticatedUser = createAsyncThunk(
   }
 );
 
-// Gets users
+// Search for users
 export const fetchUsers = createAsyncThunk(
   'users/list',
   async (
@@ -38,7 +31,6 @@ export const fetchUsers = createAsyncThunk(
     { rejectWithValue, getState, dispatch }
   ) => {
     try {
-      console.log('query', query);
       const { data } = await axios.get(
         `https://api.github.com/search/users?q=${query}&page=${page}&per_page=${per_page}`
       );
@@ -73,19 +65,25 @@ export const fetchDefault = createAsyncThunk(
   }
 );
 
+// Check if user is followed
 export const checkFollowedUser = createAsyncThunk(
   'follow/user',
   async (user, { rejectWithValue, getState, dispatch }) => {
     try {
+      const bearer = localStorage.getItem('accessToken');
       const response = await axios.get(
         `https://api.github.com/user/following/${user}`,
         {
           headers: {
             Authorization: `Bearer ${bearer}`,
           },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${bearer}`,
+          },
         }
       );
-      console.log('response', response);
       return response.status;
     } catch (err) {
       if (!err?.response) {
@@ -96,10 +94,12 @@ export const checkFollowedUser = createAsyncThunk(
   }
 );
 
+// Follow user
 export const followUser = createAsyncThunk(
   'follow/user',
   async (user, { rejectWithValue, getState, dispatch }) => {
     try {
+      const bearer = localStorage.getItem('accessToken');
       const { data } = await axios.put(
         `https://api.github.com/user/following/${user}`,
         {
@@ -127,10 +127,12 @@ export const followUser = createAsyncThunk(
   }
 );
 
+// Unfollow user
 export const unfollowUser = createAsyncThunk(
   'unfollow/user',
   async (user, { rejectWithValue, getState, dispatch }) => {
     try {
+      const bearer = localStorage.getItem('accessToken');
       const { data } = await axios.delete(
         `https://api.github.com/user/following/${user}`,
         {

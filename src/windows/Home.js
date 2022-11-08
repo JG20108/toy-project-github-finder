@@ -8,9 +8,26 @@ import { MDBContainer, MDBRow, MDBSpinner } from 'mdb-react-ui-kit';
 import { useSelector, useDispatch } from 'react-redux';
 // eslint-disable-next-line no-unused-vars
 import { fetchUsers, fetchDefault, fetchAuthenticatedUser } from '../redux/slices/githubUsers';
+import { useNavigate } from 'react-router';
 const { Octokit } = require("@octokit/rest");
 
 export default function Home() {
+
+  const navigate = useNavigate();
+
+  var minutes = 10;
+
+  var now = new Date().getTime();
+  var setupTime = localStorage.getItem('setupTime');
+  if (setupTime == null) {
+    localStorage.setItem('setupTime', now);
+  } else {
+    if (now - setupTime > minutes * 60 * 1000) {
+      localStorage.setItem('setupTime', now);
+      navigate('/login');
+    }
+  }
+
   const {
     users,
     loading,

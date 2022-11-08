@@ -14,8 +14,6 @@ export default function ProfilePage() {
       className="pt-3"
       style={{
         backgroundColor: '#eee',
-        height: '100%',
-        width: '100%',
         top: '0',
         bottom: '0',
         right: '0',

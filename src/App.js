@@ -18,19 +18,6 @@ import Login from './windows/LoginScreen';
 
 import './App.css';
 
-var minutes = 10;
-
-var now = new Date().getTime();
-var setupTime = localStorage.getItem('setupTime');
-if (setupTime == null) {
-  localStorage.setItem('setupTime', now);
-} else {
-  if (now - setupTime > minutes * 60 * 1000) {
-    localStorage.setItem('accessToken', '');
-    localStorage.setItem('setupTime', now);
-  }
-}
-
 const App = () => {
   return (
     <BrowserRouter>

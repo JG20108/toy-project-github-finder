@@ -15,9 +15,10 @@ import {
   MDBIcon,
   MDBListGroup,
   MDBListGroupItem,
+  MDBSpinner,
 } from 'mdb-react-ui-kit';
 
-export default function DetailedView() {
+export default function Profile() {
   // eslint-disable-next-line no-unused-vars
   const repoIds = useId();
 
@@ -29,6 +30,7 @@ export default function DetailedView() {
   const username = user?.login;
 
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(fetchAuthenticatedUser(accessToken));
   }, [dispatch, accessToken]);
@@ -51,10 +53,21 @@ export default function DetailedView() {
     );
   } else {
     return (
-      <section style={{ backgroundColor: '#eee', height: '100vh' }}>
+      <section style={{ backgroundColor: '#eee', }}>
         <MDBContainer className="py-3">
           {loading ? (
-            <h1 className="text-center">Loading data please wait...</h1>
+            <div className="text-center">
+            <MDBSpinner
+              color="primary"
+              className="text-center"
+              style={{ width: '32rem', height: '32rem' }}
+            ></MDBSpinner>
+            <h1>
+              <strong className="justify-content-center">
+                Loading Profile...
+              </strong>
+            </h1>
+          </div>
           ) : error ? (
             <h2>{error?.message}</h2>
           ) : (

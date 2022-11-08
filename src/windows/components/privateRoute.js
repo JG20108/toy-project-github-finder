@@ -4,7 +4,6 @@ import { Spinner } from 'react-bootstrap';
 
 export default function PrivateRoute({ children }) {
   const accessToken = localStorage.getItem('accessToken');
-  console.log(accessToken);
   const navigate = useNavigate();
   useEffect(() => {
     if (accessToken === '') {

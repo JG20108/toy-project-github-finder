@@ -14,7 +14,6 @@ export default function Pagination() {
       setCurrentPage(selectedPage);
       // dispatch(setCurrentPage(selectedPage));
   };
-  
 
   return (
       <Wrapper>
@@ -30,7 +29,6 @@ export default function Pagination() {
           previousLabel="<<"
           renderOnZeroPageCount={null}
           marginPagesDisplayed={2}
-          initialPage={0}
           containerClassName={'pagination justify-content-center'}
           subContainerClassName={'pages pagination'}
           activeClassName={'active'}

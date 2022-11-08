@@ -17,6 +17,7 @@ import {
   MDBIcon,
   MDBListGroup,
   MDBListGroupItem,
+  MDBSpinner,
 } from 'mdb-react-ui-kit';
 import {
   followUser,
@@ -26,46 +27,44 @@ import {
 
 export default function DetailedView() {
   const { user } = useParams();
+  const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const [userDetail, setUserDetail] = useState(user);
   // eslint-disable-next-line no-unused-vars
   const bearer = localStorage.getItem('accessToken');
 
-  const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
-  const response = '';
-
-  let [statusCode, setStatusCode] = useState(0);
+  let response = '';
 
   function refreshPage() {
     window.location.reload(false);
   }
-
-  useEffect(() => {
-    const response = dispatch(checkFollowedUser(userDetail));
-
-    (async () => {
-      let res = await response;
-      setStatusCode(res.payload);
-    })();
-
-    dispatch(fetchReposAction(userDetail));
-    dispatch(fetchUserDetailAction(userDetail));
-  }, [dispatch, userDetail]);
 
   const store = useSelector((state) => state?.repos);
   const { loading, reposList, profile, error } = store;
 
   let button;
 
+  let [statusCode, setStatusCode] = useState(0);
+
+  useEffect(() => {
+    dispatch(fetchReposAction(userDetail));
+    dispatch(fetchUserDetailAction(userDetail));
+
+    dispatch(checkFollowedUser(userDetail)).then((response) => {
+      setStatusCode(response.payload);
+    });
+  }, [dispatch, userDetail, setStatusCode]);
+
+
   if (statusCode === 404 || statusCode.status === 404) {
     button = (
       <MDBBtn
         className="flex-grow-1"
         onClick={() => {
-          dispatch(followUser(userDetail));
-          // eslint-disable-next-line no-lone-blocks
-          {refreshPage()};
+          dispatch(followUser(userDetail)).then((response) => {
+            setStatusCode(204);
+          });
         }}
       >
         Follow
@@ -77,23 +76,12 @@ export default function DetailedView() {
         className="flex-grow-1"
         color="tertiary"
         onClick={() => {
-          dispatch(unfollowUser(userDetail));
-          // eslint-disable-next-line no-lone-blocks
-          {refreshPage()};
+          dispatch(unfollowUser(userDetail)).then((response) => {
+            setStatusCode(404);
+          });
         }}
       >
-        Unfollow{' '}
-      </MDBBtn>
-    );
-  } else
-   {
-    button = (
-      <MDBBtn
-        className="flex-grow-1"
-        onClick={() => {
-        }}
-      >
-        Not a 204 or 404 code{' '}
+        Unfollow
       </MDBBtn>
     );
   }
@@ -102,7 +90,18 @@ export default function DetailedView() {
     <section style={{ backgroundColor: '#eee' }}>
       <MDBContainer className="py-3">
         {loading ? (
-          <h1 className="text-center">Loading data please wait...</h1>
+          <div className="text-center">
+            <MDBSpinner
+              color="primary"
+              className="text-center"
+              style={{ width: '32rem', height: '32rem' }}
+            ></MDBSpinner>
+            <h1>
+              <strong className="justify-content-center">
+                Loading Profile...
+              </strong>
+            </h1>
+          </div>
         ) : error ? (
           <h2>{error?.message}</h2>
         ) : (

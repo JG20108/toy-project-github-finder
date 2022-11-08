@@ -19,6 +19,8 @@ export default function LoginScreen() {
   const [searchParams] = useSearchParams();
   // eslint-disable-next-line no-unused-vars
   const [accessToken, setAccessToken] = useState([]);
+  
+  localStorage.setItem('accessToken', '');
 
   const githubCode = searchParams.get('code');
 
@@ -31,13 +33,28 @@ export default function LoginScreen() {
 
   // Assign username
   const [login, setLogin] = useState('');
+
   const handleChange = (event) => {
     setLogin(event.target.value);
   };
 
+  // Validate login
+  const handleClick = (event) => {
+    event.preventDefault();
+
+    if (login.trim().length !== 0) {
+      window.open(
+        `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&login=${login}&scope=user:follow`,
+        '_self'
+      );
+    } else {
+      alert('Username field is required to proceed');
+    }
+  };
+
+  // Get access token
   useEffect(() => {
     if (githubCode) {
-      // setIsLoading(true);
       axios(
         `https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token?client_id=${client_id}&client_secret=${client_secret}&code=${githubCode}&redirect_uri=${redirect_uri}&scope=user:follow`,
         {
@@ -57,7 +74,6 @@ export default function LoginScreen() {
             setIsLoading(false);
             navigate('/');
           }
-          console.log(responseData);
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,14 +84,15 @@ export default function LoginScreen() {
       {isLoading ? (
         <div className="text-center">
           <MDBSpinner
-            color='light'
+            color="light"
             className="text-center"
             style={{ width: '32rem', height: '32rem' }}
-          >
-          </MDBSpinner>
-            <h1>
-              <strong className="text-white justify-content-center">Redirecting...</strong>
-            </h1>
+          ></MDBSpinner>
+          <h1>
+            <strong className="text-white justify-content-center">
+              Redirecting...
+            </strong>
+          </h1>
         </div>
       ) : (
         <MDBContainer fluid>
@@ -103,12 +120,7 @@ export default function LoginScreen() {
                     outline
                     className="mx-2 px-5"
                     size="lg"
-                    onClick={() =>
-                      window.open(
-                        `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&login=${login}&scope=user:follow`,
-                        '_self'
-                      )
-                    }
+                    onClick={handleClick}
                   >
                     Login
                   </MDBBtn>
