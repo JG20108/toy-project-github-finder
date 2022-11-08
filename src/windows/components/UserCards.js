@@ -11,9 +11,11 @@ import {
 } from 'mdb-react-ui-kit';
 import { useSearchParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserCards({ user }) {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
  
   if (searchParams && localStorage.getItem('accessToken') === '') {
     return (
@@ -58,8 +60,8 @@ export default function UserCards({ user }) {
                     : 'No organization defined'}
                 </a>
                 <div className="d-flex pt-1">
-                  <MDBBtn outline className="me-1 flex-grow-1">
-                    <Link to={`/details/${user?.login}`}>Details</Link>
+                  <MDBBtn outline className="me-1 flex-grow-1" onClick={() => navigate(`/details/${user?.login}`)}>
+                    Details
                   </MDBBtn>
                 </div>
               </div>

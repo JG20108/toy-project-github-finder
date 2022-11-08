@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../../redux/slices/githubUsers';
 import ReactPaginate from 'react-paginate';
@@ -8,10 +8,18 @@ import styled from 'styled-components';
 export default function Pagination() {
   const { total_pages } = useSelector((state) => state.users);
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const handlePageChange = ({ selected: selectedPage }) => {
+      setCurrentPage(selectedPage);
+      // dispatch(setCurrentPage(selectedPage));
+  };
+  
 
   return (
       <Wrapper>
         <ReactPaginate
+          forcePage = {currentPage}
           breakLabel="..."
           nextLabel=">>"
           onPageChange={(event) => {
@@ -22,6 +30,7 @@ export default function Pagination() {
           previousLabel="<<"
           renderOnZeroPageCount={null}
           marginPagesDisplayed={2}
+          initialPage={0}
           containerClassName={'pagination justify-content-center'}
           subContainerClassName={'pages pagination'}
           activeClassName={'active'}

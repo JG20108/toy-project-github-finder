@@ -31,7 +31,6 @@ export default function DetailedView() {
   // eslint-disable-next-line no-unused-vars
   const bearer = localStorage.getItem('accessToken');
 
-
   const dispatch = useDispatch();
   // eslint-disable-next-line no-unused-vars
   const response = '';
