@@ -17,7 +17,6 @@ import axios from 'axios';
 export default function LoginScreen() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  // eslint-disable-next-line no-unused-vars
   const [accessToken, setAccessToken] = useState([]);
   
   localStorage.setItem('accessToken', '');
@@ -26,19 +25,16 @@ export default function LoginScreen() {
 
   const [isLoading, setIsLoading] = useState(githubCode ? true : false);
 
-  // .env data
   const client_id = process.env.REACT_APP_CLIENT_ID;
   const client_secret = process.env.REACT_APP_CLIENT_SECRET;
   const redirect_uri = process.env.REACT_APP_REDIRECT_URI;
 
-  // Assign username
   const [login, setLogin] = useState('');
 
   const handleChange = (event) => {
     setLogin(event.target.value);
   };
 
-  // Validate login
   const handleClick = (event) => {
     event.preventDefault();
 
@@ -52,7 +48,6 @@ export default function LoginScreen() {
     }
   };
 
-  // Get access token
   useEffect(() => {
     if (githubCode) {
       axios(
@@ -76,8 +71,7 @@ export default function LoginScreen() {
           }
         });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [githubCode]);
+  }, [githubCode, client_id, client_secret, redirect_uri, navigate]);
 
   return (
     <Wrapper>

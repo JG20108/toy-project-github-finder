@@ -1,74 +1,71 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Fetch Repos
+// Async thunk for fetching repositories
 export const fetchReposAction = createAsyncThunk(
-  'repos/list',
-  async (payload, { rejectWithValue, getState, dispatch }) => {
+  'githubData/fetchRepos',
+  async (username, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(
-        `https://api.github.com/users/${payload}/repos?per_page=15&sort=created:asc`
-      );
+      const { data } = await axios.get(`https://api.github.com/users/${username}/repos?per_page=15&sort=created:asc`);
       return data;
     } catch (err) {
-      if (!err?.response) {
-        throw err;
-      }
+      if (!err?.response) throw err;
       return rejectWithValue(err?.response);
     }
   }
 );
 
-// Gets user detailed profile
+// Async thunk for fetching user details
 export const fetchUserDetailAction = createAsyncThunk(
-  'profile/list',
-  async (user, { rejectWithValue, getState, dispatch }) => {
+  'githubData/fetchUserDetail',
+  async (username, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`https://api.github.com/users/${user}`);
+      const { data } = await axios.get(`https://api.github.com/users/${username}`);
       return data;
     } catch (err) {
-      if (!err?.response) {
-        throw err;
-      }
+      if (!err?.response) throw err;
       return rejectWithValue(err?.response);
     }
   }
 );
 
-// Slice for repos
-const reposSlices = createSlice({
-  name: 'repos',
-  initialState: {user:''},
+// Unified slice for GitHub data
+const githubDataSlice = createSlice({
+  name: 'githubData',
+  initialState: {
+    repos: [],
+    profile: {},
+    loading: false,
+    error: null,
+  },
   extraReducers: (builder) => {
-    builder.addCase(fetchReposAction.pending, (state, actions) => {
-      state.loading = true;
-    });
-    builder.addCase(fetchReposAction.fulfilled, (state, action) => {
-      state.loading = false;
-      state.reposList = action?.payload;
-      state.error = undefined;
-    });
-    builder.addCase(fetchReposAction.rejected, (state, action) => {
-      state.loading = false;
-      state.reposList = undefined;
-      state.error = action?.payload;
-    })
-
-    // Slice for fetching users
-    builder.addCase(fetchUserDetailAction.pending, (state, action) => {
-      state.loading = true;
-    })
-    builder.addCase(fetchUserDetailAction.fulfilled, (state, action) => {
-      state.loading = false;
-      state.profile = action?.payload;
-      state.error = undefined;
-    });
-    builder.addCase(fetchUserDetailAction.rejected, (state, action) => {
-      state.loading = false;
-      state.profile = undefined;
-      state.error = action?.payload;
-    })
+    // Handle fetchReposAction
+    builder
+      .addCase(fetchReposAction.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchReposAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.repos = action.payload;
+      })
+      .addCase(fetchReposAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+    // Handle fetchUserDetailAction
+    builder
+      .addCase(fetchUserDetailAction.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUserDetailAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile = action.payload;
+      })
+      .addCase(fetchUserDetailAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
-export default reposSlices.reducer;
+export default githubDataSlice.reducer;

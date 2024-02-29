@@ -21,15 +21,13 @@ export default function App() {
           <MDBRow className="mt-3">
             <MDBCol md="3" lg="4" xl="3" className="mx-auto mb-4">
               <h6 className="text-uppercase fw-bold mb-4">
-                <MDBIcon far icon="building" className="me-3" />
-                Hello Iconic
+                <MDBIcon fab icon="github-alt" className="me-2"/>
+                Tool details
               </h6>
               <p>
-                The excellence we produce for you comes from the strength of our
-                team. We are a dynamic, growing group of experienced
-                professionals with diverse backgrounds and skillsets—coming
-                together to produce digital products that drive your business
-                forward.
+              This GitHub User Finder is designed to streamline the process of discovering GitHub users. 
+              It enables users to easily search, follow, and unfollow GitHub profiles, enhancing the way developers connect and interact within the GitHub community. 
+              This tool aims to simplify navigation through GitHub's vast user base, making it more accessible for everyone to find and engage with the developers they are interested in.
               </p>
             </MDBCol>
 
@@ -75,30 +73,17 @@ export default function App() {
                   GitHub Repository
                 </a>
               </p>
-              <p>
-                <a
-                  href="https://docs.google.com/document/d/1HKeYz7bV5B-ZhqErdIAUcyn6Ze0M9R0aR5HA9MPBbx0/edit?usp=sharing"
-                  target="_blank"
-                  className="text-reset"
-                  rel="noreferrer"
-                >
-                  Project Requirements
-                </a>
-              </p>
             </MDBCol>
 
             <MDBCol md="4" lg="3" xl="3" className="mx-auto mb-md-0 mb-4">
               <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
               <p>
                 <MDBIcon icon="home" className="me-2" />
-                Los Angeles, US, 177 E Colorado Blvd. Pasadena, CA
+                Tegucigalpa, Honduras 11101
               </p>
               <p>
                 <MDBIcon icon="envelope" className="me-3" />
-                info@helloiconic.com
-              </p>
-              <p>
-                <MDBIcon icon="phone" className="me-3" /> + 01 234 567 88
+                joseosgui@hotmail.com
               </p>
             </MDBCol>
           </MDBRow>
@@ -109,14 +94,14 @@ export default function App() {
         className="text-center p-4"
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}
       >
-        Developed by:
+        Developed by: 
         <a
           className="text-reset fw-bold"
-          href="https://www.helloiconic.com"
+          href="https://portfolio-theta-gold-13.vercel.app/"
           target="_blank"
           rel="noreferrer"
         >
-          Hello Iconic
+          Jose Guillen
         </a>
       </div>
     </MDBFooter>

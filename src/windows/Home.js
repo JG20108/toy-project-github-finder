@@ -6,17 +6,16 @@ import Pagination from './components/Pagination';
 import Footer from './components/Footer';
 import { MDBContainer, MDBRow, MDBSpinner } from 'mdb-react-ui-kit';
 import { useSelector, useDispatch } from 'react-redux';
-// eslint-disable-next-line no-unused-vars
-import { fetchUsers, fetchDefault, fetchAuthenticatedUser } from '../redux/slices/githubUsers';
+import { fetchUsers, fetchDefault } from '../redux/slices/githubUsers'; // Removed unused import
 import { useNavigate } from 'react-router';
 const { Octokit } = require("@octokit/rest");
 
 export default function Home() {
-
+  // Navigation hook for redirecting users
   const navigate = useNavigate();
 
+  // Session timeout logic
   var minutes = 10;
-
   var now = new Date().getTime();
   var setupTime = localStorage.getItem('setupTime');
   if (setupTime == null) {
@@ -28,22 +27,15 @@ export default function Home() {
     }
   }
 
-  const {
-    users,
-    loading,
-    page,
-    debouncedTerm: query,
-    per_page,
-  } = useSelector((state) => state.users);
+  // Redux state for user data and loading state
+  const { users, loading, page, debouncedTerm: query, per_page } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
+  // GitHub API authentication
   const bearer = localStorage.getItem('accessToken');
+  const octokit = new Octokit({ auth: `${bearer}` });
 
-  // eslint-disable-next-line no-unused-vars
-  const octokit = new Octokit({
-    auth: `${bearer}`
-  })
-
+  // Fetch users or default user based on query
   useEffect(() => {
     if (query !== '') {
       dispatch(fetchUsers({ query, page, per_page }));
@@ -51,7 +43,6 @@ export default function Home() {
       const defaultUser = 'github';
       dispatch(fetchDefault({ defaultUser, page, per_page }));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, query, page, bearer]);
 
   return (

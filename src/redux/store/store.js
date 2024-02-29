@@ -1,11 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import reposReducer from '../slices/githubFinderSlices';
-import {githubUsersSlice, githubAuthenticatedUserSlice} from '../slices/githubUsers';
+import githubDataReducer from '../slices/githubFinderSlices'; // Updated import path
+import githubUsersReducer from '../slices/githubUsers'; // Ensure this is the correct import path after refactoring
 
 export const store = configureStore({
   reducer: {
-    repos: reposReducer,
-    users: githubUsersSlice.reducer,
-    authenticatedUser: githubAuthenticatedUserSlice.reducer,
+    githubData: githubDataReducer, // Updated to reflect new slice name
+    users: githubUsersReducer, // Ensure this matches the exported reducer name
   },
 });

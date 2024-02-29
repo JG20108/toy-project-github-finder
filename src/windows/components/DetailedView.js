@@ -28,19 +28,16 @@ import {
 export default function DetailedView() {
   const { user } = useParams();
   const dispatch = useDispatch();
-  // eslint-disable-next-line no-unused-vars
   const [userDetail, setUserDetail] = useState(user);
-  // eslint-disable-next-line no-unused-vars
   const bearer = localStorage.getItem('accessToken');
 
-  // eslint-disable-next-line no-unused-vars
   let response = '';
 
   function refreshPage() {
     window.location.reload(false);
   }
 
-  const store = useSelector((state) => state?.repos);
+  const store = useSelector((state) => state.githubData);
   const { loading, reposList, profile, error } = store;
 
   let button;
