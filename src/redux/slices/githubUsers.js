@@ -225,3 +225,4 @@ export const githubAuthenticatedUserSlice = createSlice({
 
 export default githubUsersSlice.reducer;
 export const { setPage, setDebouncedTerm } = githubUsersSlice.actions;
+export const authenticatedUserReducer = githubAuthenticatedUserSlice.reducer;

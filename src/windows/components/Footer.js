@@ -6,15 +6,18 @@ import {
   MDBCol,
   MDBIcon,
 } from 'mdb-react-ui-kit';
+import { useDarkMode } from '../../contexts/DarkModeContext';
 
 export default function App() {
+  const { darkMode } = useDarkMode();
+
   return (
     <MDBFooter
       style={{
         marginTop: '15%',
       }}
       bgColor="light"
-      className="text-center text-lg-start text-muted"
+      className={`text-center text-lg-start text-muted ${darkMode ? 'dark-mode' : ''}`}
     >
       <section className="">
         <MDBContainer className="text-center text-md-start mt-2 pt-2">
@@ -91,7 +94,7 @@ export default function App() {
       </section>
 
       <div
-        className="text-center p-4"
+        className={`text-center p-4 ${darkMode ? 'dark-mode' : ''}`}
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}
       >
         Developed by: 

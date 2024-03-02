@@ -38,3 +38,12 @@ html {
     transform: translateY(0px);
   }
 }
+/* Add at the end of your existing CSS */
+body.dark-mode {
+  background-color: #121212;
+  color: white;
+}
+
+.dark-mode .App-link, .dark-mode a {
+  color: #90caf9;
+}

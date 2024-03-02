@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import {
@@ -6,6 +6,8 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
+
+import { DarkModeProvider } from './contexts/DarkModeContext';
 
 import PrivateRoute from './windows/components/privateRoute';
 import PublicRoute from './windows/components/publicRoute';
@@ -20,61 +22,64 @@ import './App.css';
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/login"
-          element={
-            <>
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            </>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <>
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            </>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <>
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            </>
-          }
-        />
-        <Route
-          path="/technologies"
-          element={
-            <>
-              <PrivateRoute>
-                <Technologies />
-              </PrivateRoute>
-            </>
-          }
-        />
-        <Route
-          path="/details/:user"
-          element={
-            <>
-              <PrivateRoute>
-                <DetailedView />
-              </PrivateRoute>
-            </>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+    <DarkModeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              <>
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              </>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <>
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              </>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <>
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              </>
+            }
+          />
+          <Route
+            path="/technologies"
+            element={
+              <>
+                <PrivateRoute>
+                  <Technologies />
+                </PrivateRoute>
+              </>
+            }
+          />
+          <Route
+            path="/details/:user"
+            element={
+              <>
+                <PrivateRoute>
+                  <DetailedView />
+                </PrivateRoute>
+              </>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </DarkModeProvider>
   );
 };
 
 export default App;
+

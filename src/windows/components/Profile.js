@@ -23,9 +23,8 @@ export default function Profile() {
   const repoIds = useId();
 
   const accessToken = localStorage.getItem('accessToken');
-  const { user, loading, error } = useSelector(
-    (state) => state.authenticatedUser
-  );
+  const { user, loading, error } = useSelector((state) => state.authenticatedUser);
+  const reposList = useSelector((state) => state.githubData.repos);
 
   const username = user?.login;
 
@@ -39,9 +38,6 @@ export default function Profile() {
   useEffect(() => {
     dispatchRepos(fetchReposAction(username));
   }, [dispatchRepos, username]);
-
-  const store = useSelector((state) => state?.repos);
-  const { reposList } = store;
 
   if (localStorage.getItem('accessToken') === '') {
     return (

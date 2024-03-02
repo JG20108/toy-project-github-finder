@@ -10,8 +10,10 @@ import {
   MDBNavbarBrand,
   MDBCollapse,
 } from 'mdb-react-ui-kit';
+import { useDarkMode } from '../../contexts/DarkModeContext';
 
 export default function NavBar({ user }) {
+  const { darkMode, setDarkMode } = useDarkMode();
   const [showNavColor, setShowNavColor] = useState(false);
 
   return (
@@ -70,6 +72,9 @@ export default function NavBar({ user }) {
               <MDBIcon className="fas fa-sign-out-alt" /> Logout 
             </NavLink>
           </MDBCollapse>
+          <button onClick={() => setDarkMode(!darkMode)}>
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
         </MDBContainer>
       </MDBNavbar>
     </>
